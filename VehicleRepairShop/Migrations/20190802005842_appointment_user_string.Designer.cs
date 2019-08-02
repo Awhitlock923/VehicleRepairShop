@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VehicleRepairShop.Models;
 
 namespace VehicleRepairShop.Migrations
 {
     [DbContext(typeof(VehicleRepairShopContext))]
-    partial class VehicleRepairShopContextModelSnapshot : ModelSnapshot
+    [Migration("20190802005842_appointment_user_string")]
+    partial class appointment_user_string
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
