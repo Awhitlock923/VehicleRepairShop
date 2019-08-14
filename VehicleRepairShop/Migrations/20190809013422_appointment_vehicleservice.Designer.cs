@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VehicleRepairShop.Models;
 
 namespace VehicleRepairShop.Migrations
 {
     [DbContext(typeof(VehicleRepairShopContext))]
-    partial class VehicleRepairShopContextModelSnapshot : ModelSnapshot
+    [Migration("20190809013422_appointment_vehicleservice")]
+    partial class appointment_vehicleservice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -162,11 +164,9 @@ namespace VehicleRepairShop.Migrations
 
                     b.Property<int>("AppointmentId");
 
-                    b.Property<int>("VehicleServiceId");
+                    b.Property<int>("VehicleSeviceId");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("VehicleServiceId");
 
                     b.ToTable("AppointmentVehicleServiceLink");
                 });
@@ -320,14 +320,6 @@ namespace VehicleRepairShop.Migrations
                     b.HasOne("VehicleRepairShop.Models.Vehicle", "Vehicle")
                         .WithMany()
                         .HasForeignKey("VehicleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("VehicleRepairShop.Models.AppointmentVehicleServiceLink", b =>
-                {
-                    b.HasOne("VehicleRepairShop.Models.VehicleService", "VehicleService")
-                        .WithMany()
-                        .HasForeignKey("VehicleServiceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

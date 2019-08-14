@@ -21,7 +21,7 @@ namespace VehicleRepairShop.Controllers
         // GET: Appointments
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Appointment.ToListAsync());
+            return View(await _context.Appointment.Include(v => v.User).Include(a => a.Vehicle).ToListAsync());
         }
 
         // GET: Appointments/Details/5
@@ -33,19 +33,47 @@ namespace VehicleRepairShop.Controllers
             }
 
             var appointment = await _context.Appointment
+                .Include(a => a.User)
+                .Include(a => a.Vehicle)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (appointment == null)
             {
                 return NotFound();
             }
 
+            var vehicleServices = await _context
+                .AppointmentVehicleServiceLink
+                .Where(l => l.AppointmentId == appointment.Id)
+                .Include(l => l.VehicleService)
+                .Select(l => l.VehicleService)
+                .ToListAsync();
+            var appointmentViewModel = new AppointmentVehicleServiceViewModel()
+            {
+                Appointment = appointment,
+                VehicleServices = vehicleServices
+            };
             return View(appointment);
         }
 
         // GET: Appointments/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create(int vehicleId)
         {
-            return View();
+            var vehicle = _context.Vehicle.Where(v => v.Id == vehicleId).First();
+            var user = _context.Users.Where(u => u.Id == vehicle.OwnerId).First();
+            var vehicleServices = await _context.VehicleService.ToListAsync();
+
+            var appointmentViewModel = new AppointmentVehicleServiceViewModel() {
+                Vehicle = vehicle,
+                User = user,
+                VehicleServices = vehicleServices,
+                Appointment = new Appointment()
+                {
+                    UserId = user.Id,
+                    VehicleId = vehicle.Id,
+                    ScheduledDate = DateTime.Now
+                }
+            };
+            return View(appointmentViewModel);
         }
 
         // POST: Appointments/Create
@@ -53,11 +81,21 @@ namespace VehicleRepairShop.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ScheduledDate,VehicleId,UserId")] Appointment appointment)
+        public async Task<IActionResult> Create(Appointment appointment, List<int> vehicleServices)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(appointment);
+                await _context.SaveChangesAsync();
+
+                foreach(var service in vehicleServices)
+                {
+                    _context.Add(new AppointmentVehicleServiceLink()
+                    {
+                        AppointmentId = appointment.Id,
+                        VehicleServiceId = service
+                    });
+                }
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

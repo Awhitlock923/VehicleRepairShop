@@ -65,6 +65,15 @@ namespace VehicleRepairShop.Data
                             OwnerId = UserId
                         }); ;
                 }
+
+                if (!context.VehicleService.Any())
+                    {
+                        context.VehicleService.AddRange(
+                        new VehicleService() { Name = "Tire Rotation" },
+                        new VehicleService() { Name = "Oil Change" }
+                        );
+                    }
+
                 context.SaveChanges();
             }
         }

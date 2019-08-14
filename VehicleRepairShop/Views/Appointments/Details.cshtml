@@ -1,4 +1,4 @@
-﻿@model VehicleRepairShop.Models.Appointment
+﻿@model VehicleRepairShop.Models.AppointmentVehicleServiceViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -10,27 +10,33 @@
     <h4>Appointment</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ScheduledDate)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Appointment.ScheduledDate)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ScheduledDate)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Appointment.ScheduledDate)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VehicleId)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Vehicle)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VehicleId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Vehicle.FullName)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UserId)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UserId)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.FullName)
+        </dd>
+        <dt class="col-sm-2">
+            Services
+        </dt>
+        <dd class="col-sm-10">
+            @(string.Join(",", Model.VehicleServices.Select(s => s.Name).ToArray()))
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Appointment.Id">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

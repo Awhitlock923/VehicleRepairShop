@@ -5,14 +5,11 @@ using System.Threading.Tasks;
 
 namespace VehicleRepairShop.Models
 {
-    public class Appointment
+    public class AppointmentVehicleServiceViewModel
     {
-        public int Id { get; set; }
-        public DateTime ScheduledDate { get; set; }
-        public int VehicleId { get; set; }
+        public Appointment Appointment { get; set; }
+        public List<VehicleService> VehicleServices { get; set; }
         public Vehicle Vehicle { get; set; }
-        public string UserId { get; set; }
         public User User { get; set; }
-
     }
 }
