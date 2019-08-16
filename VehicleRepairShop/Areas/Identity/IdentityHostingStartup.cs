@@ -24,6 +24,7 @@ namespace VehicleRepairShop.Areas.Identity
                     options.Password.RequiredLength = 6;
                     options.Password.RequiredUniqueChars = 1;
                 })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<VehicleRepairShopContext>();
             });
         }

@@ -16,7 +16,6 @@ namespace VehicleRepairShop.Models
         }
 
         public DbSet<VehicleRepairShop.Models.Vehicle> Vehicle { get; set; }
-        public DbSet<User> Users { get; set; }
         public DbSet<VehicleRepairShop.Models.VehicleService> VehicleService { get; set; }
         public DbSet<VehicleRepairShop.Models.Appointment> Appointment { get; set; }
         public DbSet<AppointmentVehicleServiceLink> AppointmentVehicleServiceLink { get; set; }
