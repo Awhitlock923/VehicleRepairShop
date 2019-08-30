@@ -25,7 +25,13 @@ namespace VehicleRepairShop.Data
                 {
                     var roleResult = await roleManager
                         .CreateAsync(new IdentityRole() { Name = Constants.Roles.Admin });
+                    roleResult = await roleManager
+                        .CreateAsync(new IdentityRole() { Name = Constants.Roles.Tech });
+                    roleResult = await roleManager
+                            .CreateAsync(new IdentityRole() { Name = Constants.Roles.User });
                 }
+
+                
 
                 if (!context.Users.Any())
                 {
